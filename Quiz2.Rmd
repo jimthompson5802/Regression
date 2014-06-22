@@ -1,0 +1,94 @@
+Regression - Quiz 2
+========================================================
+
+Question 1 & 2
+----------
+```{r}
+x <- c(0.61, 0.93, 0.83, 0.35, 0.54, 0.16, 0.91, 0.62, 0.62)
+y <- c(0.67, 0.84, 0.6, 0.18, 0.85, 0.47, 1.1, 0.65, 0.36)
+
+plot(x,y)
+```
+
+$\bar X = \frac{\sum_{i=1}^n x_{i}}{n}$,    $\bar Y = \frac{\sum_{i=1}^n y_{i}}{n}$
+
+$\beta_{1} = Cor(Y,X)\frac{Sd(Y)}{sd(X)}$ 
+
+$\beta_{0} = \bar Y + \beta_{1} \bar X$
+
+$e_{i} = y_{i} -  (\beta_{0} + \beta_{1} x_{i})$
+
+$\sigma = \frac{\sum_{i=1}^n e_{i}^2}{n-2}$
+
+$ssx = \sum_{i=1}^n (X - \bar X)^2$
+
+$se\beta_{0} = \sigma \sqrt{\frac{1}{n} + \frac{\bar X^2}{ssx}}$
+
+$se\beta_{1} = \frac{\sigma}{\sqrt{ssx}}$
+
+$t\beta_{0} = \frac{\beta_{0}}{se\beta_{0}}$,    $t\beta_{1} = \frac{\beta_{1}}{se\beta_{1}}$
+
+
+```{r}
+
+n <- length(y)
+beta1 <- cor(y, x) * sd(y) / sd(x)
+beta0 <- mean(y) - beta1 * mean(x)
+e <- y - beta0 - beta1 * x
+sigma <- sqrt(sum(e^2) / (n-2)) 
+ssx <- sum((x - mean(x))^2)
+seBeta0 <- (1 / n + mean(x) ^ 2 / ssx) ^ .5 * sigma 
+seBeta1 <- sigma / sqrt(ssx)
+tBeta0 <- beta0 / seBeta0; tBeta1 <- beta1 / seBeta1
+pBeta0 <- 2 * pt(abs(tBeta0), df = n - 2, lower.tail = FALSE)
+pBeta1 <- 2 * pt(abs(tBeta1), df = n - 2, lower.tail = FALSE)
+coefTable <- rbind(c(beta0, seBeta0, tBeta0, pBeta0), c(beta1, seBeta1, tBeta1, pBeta1))
+colnames(coefTable) <- c("Estimate", "Std. Error", "t value", "P(>|t|)")
+rownames(coefTable) <- c("(Intercept)", "x")
+
+#Question 1
+coefTable
+
+#Question 2
+sigma
+
+
+lm1 <- lm(y~x)
+
+summary(lm1)
+
+
+```
+
+
+Question 3 - 6,9
+```{r}
+lm2 <- lm(mpg~wt,mtcars)
+summary(lm2)
+confint(lm2)
+
+#Question 3
+newdata <- data.frame(wt=mean(mtcars$wt));newdata
+predict(lm2,newdata,interval="confidence")
+
+#Question 5
+newdata <- data.frame(wt=3000/1000);newdata
+predict(lm2,newdata,interval="prediction")
+
+#Question 6
+length(mtcars$mpg)
+lm2$df
+sumCoef <- summary(lm2)$coefficients
+sumCoef
+bnds <- sumCoef[2,1] + c(-1,1) * qt(0.975,df=lm2$df) * sumCoef[2,2]
+bnds
+2*bnds
+
+#Question 9
+denom <- sum((mtcars$mpg-mean(mtcars$mpg))^2);denom
+numer <- sum(lm2$residuals^2); numer
+numer/denom
+
+```
+
+

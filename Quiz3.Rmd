@@ -1,0 +1,108 @@
+Regression - Quiz 3
+========================================================
+
+Question 1
+----------
+```{r}
+library(plyr)
+cars <- mutate(mtcars,
+               cyl=factor(cyl))
+fit <- lm(mpg~cyl+wt,data=cars)
+summary(fit)
+
+```
+
+Question 2
+----------
+```{r}
+library(plyr)
+cars <- mutate(mtcars,
+               cyl=factor(cyl))
+fit <- lm(mpg~cyl+wt,data=cars)
+fit2 <- lm(mpg~cyl,data=cars)
+summary(fit)
+summary(fit2)
+
+```
+
+Question 3
+----------
+```{r}
+library(plyr)
+cars <- mutate(mtcars,
+               cyl=factor(cyl))
+fit <- lm(mpg~cyl+wt,data=cars)
+fit2 <- update(fit,mpg~cyl + wt + cyl*wt)
+
+summary(fit)
+summary(fit2)
+
+anova(fit,fit2)
+
+```
+
+Question 4
+----------
+```{r}
+
+lm.q4 <- lm(mpg ~ I(0.5*wt) + cyl,data=cars)
+
+summary(lm.q4)
+
+```
+
+
+
+Question 5
+-----------
+```{r}
+x <- c(0.586, 0.166, -0.042, -0.614, 11.72)
+y <- c(0.549, -0.026, -0.127, -0.751, 1.344)
+
+
+lm.q5 <- lm(y~x)
+plot(x,y)
+abline(lm.q5)
+
+summary(lm.q5)
+
+dfbeta(lm.q5)
+
+hatvalues(lm.q5)
+
+par.old <- par()
+par(mfrow=c(2,2))
+plot(lm.q5)
+par(par.old)
+```
+
+
+Question 6
+----------
+```{r}
+x <- c(0.586, 0.166, -0.042, -0.614, 11.72)
+y <- c(0.549, -0.026, -0.127, -0.751, 1.344)
+
+
+
+lm.q6 <- lm(y~x)
+
+plot(x,y)
+abline(lm.q6)
+
+summary(lm.q6)
+
+old.par <- par()
+par(mfrow=c(2,2))
+plot(lm.q6)
+par(old.par)
+
+
+
+hatvalues(lm.q6)
+
+dfbetas(lm.q6)
+
+influence.measures(lm.q6)
+```
+
