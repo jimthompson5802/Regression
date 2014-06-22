@@ -5,7 +5,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
 <meta http-equiv="x-ua-compatible" content="IE=9" >
 
-<title>Quiz 1</title>
+<title>Regression - Quiz 1</title>
 
 <style type="text/css">
 body, td {
@@ -179,7 +179,7 @@ hljs.initHighlightingOnLoad();
 </head>
 
 <body>
-<h1>Quiz 1</h1>
+<h1>Regression - Quiz 1</h1>
 
 <h2>Question 1</h2>
 
@@ -198,12 +198,36 @@ sum(x * w/s.w)
 <pre><code class="r">x &lt;- c(0.8, 0.47, 0.51, 0.73, 0.36, 0.58, 0.57, 0.85, 0.44, 0.42)
 y &lt;- c(1.39, 0.72, 1.55, 0.48, 1.19, -1.59, 1.23, -0.65, 1.49, 0.05)
 fit &lt;- lm(y ~ x - 1)
+coef(fit)
+</code></pre>
+
+<pre><code>##      x 
+## 0.8263
 </code></pre>
 
 <h2>Question 6</h2>
 
 <pre><code class="r">x &lt;- c(8.58, 10.46, 9.01, 9.64, 8.86)
 s.x &lt;- scale(x)
+s.x
+</code></pre>
+
+<pre><code>##         [,1]
+## [1,] -0.9719
+## [2,]  1.5310
+## [3,] -0.3994
+## [4,]  0.4393
+## [5,] -0.5991
+## attr(,&quot;scaled:center&quot;)
+## [1] 9.31
+## attr(,&quot;scaled:scale&quot;)
+## [1] 0.7511
+</code></pre>
+
+<pre><code class="r">(x - mean(x))/sd(x)
+</code></pre>
+
+<pre><code>## [1] -0.9719  1.5310 -0.3994  0.4393 -0.5991
 </code></pre>
 
 <h2>Question 7</h2>
