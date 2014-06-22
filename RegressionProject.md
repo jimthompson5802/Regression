@@ -29,7 +29,7 @@ subtracted.  This will allow for realistic interpretation of the intercept term.
 
 
 To quantify the effect of transmission type on mpg, we create a linear regression model 
-using all the relevant variables,i.e., **mpg ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb**.  For this model the F-statistic is 13.9325 with a p-value of 3.7932 &times; 10<sup>-7</sup>, which show the model is
+using all the relevant variables: **Model 1 mpg ~ cyl + disp + hp + drat + wt + qsec + vs + am + gear + carb**.  For this model the F-statistic is 13.9325 with a p-value of 3.7932 &times; 10<sup>-7</sup>, which show the model is
 significant at the $\alpha=0.05$.  While the model may be significant, the
 p-value for the coefficients indicate we cannot reject the null hypothesis that they are zero.
 
@@ -48,7 +48,7 @@ p-value for the coefficients indicate we cannot reject the null hypothesis that 
 ## carb        -0.19942    0.82875 -0.2406  0.81218
 ```
 
-To find an alternative model, we use the **step** function to explore other formulations of the regression model.  After running the procedure, the **step** function selected this formulation as the optimal representation **mpg ~ wt + qsec + am**. For this second model, the F-statistic is 52.7496 with a p-value is 1.2104 &times; 10<sup>-11</sup>  The selected model has these coefficients, which based on the respective p-values are 
+To find an alternative model, we use the **step** function to explore other formulations of the regression model.  After running the procedure, the **step** function selected this formulation as the optimal representation: **Model 2 mpg ~ wt + qsec + am**. For this second model, the F-statistic is 52.7496 with a p-value is 1.2104 &times; 10<sup>-11</sup>  The selected model has these coefficients, which based on the respective p-values are 
 statistically significant.
 
 ```
@@ -61,15 +61,16 @@ statistically significant.
 The model's intercept shows the expected mpg is 18.898 for a car with
 the average weight and average seconds for a quater mile.  The coefficient for wt indicates
 the mpg will decrease by 3.917 for every thousand pound increase in
-weight.  For every second a car goes slower in the quarter mile, the coefficient for
+weight over the average weight.  For every second a car goes slower in the quarter mile then 
+the average seconds per quarter mile, the coefficient for
 qsec shows the mpg will increase by 1.226.  Finally, by using
-a manual transmission, the mpg increases 2.936 over that from an
+a manual transmission, the mpg increases 2.936 over the baseline of an
 automatic transmission.
 
 Figure 2 in the Appendix shows the regression diagnostic plots for this second model.
 The residual plot shows there may be non-linear effect that merit further analysis.
 
-The confidence intervals for these model parameters are
+The confidence intervals for the coefficients are
 
 ```
 ##                2.5 % 97.5 %
@@ -83,7 +84,7 @@ The confidence intervals for these model parameters are
 
 Appendix
 --------
-Summary statistics
+**Summary statistics for Motor Trend Data**
 
 ```
 ##       mpg            cyl            disp             hp       
@@ -109,10 +110,24 @@ Summary statistics
 ##  Max.   :1.000   Max.   :5.00   Max.   :8.00
 ```
 
+![MPG Comparision by Transmission Type](figure/unnamed-chunk-10.png) 
 
-**Figure 1**
-![Figure 1](figure/unnamed-chunk-10.png) 
+**Optimal Model Selection**
+This documents the series of predictor variables eliminated or added by the **step** function to achieve 
+Model 2.  Criteria for model selection is based on the minimum Akaike Information Criteria 
+(AIC).  This led to model **mpg ~ wt + qsec + am**.
 
-**Figure 2**
-![plot of chunk unnamed-chunk-11](figure/unnamed-chunk-11.png) 
+```
+##     Step Df Deviance Resid. Df Resid. Dev   AIC
+## 1        NA       NA        21      147.5 70.90
+## 2  - cyl  1  0.07987        22      147.6 68.92
+## 3   - vs  1  0.26852        23      147.8 66.97
+## 4 - carb  1  0.68546        24      148.5 65.12
+## 5 - gear  1  1.56497        25      150.1 63.46
+## 6 - drat  1  3.34455        26      153.4 62.16
+## 7 - disp  1  6.62865        27      160.1 61.52
+## 8   - hp  1  9.21947        28      169.3 61.31
+```
+
+![Regression Diagnostics for Model 2](figure/unnamed-chunk-12.png) 
 
